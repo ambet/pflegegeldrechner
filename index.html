@@ -82,6 +82,7 @@
         }
         .pgr-container label {
             cursor: pointer;
+            vertical-align: middle;
         }
         .pgr-container ul {
             border: 0;
@@ -120,9 +121,13 @@
         .pgr-pflegestufe label {
             font-weight: bold;
             margin: 0 0 1em 0;
+            vertical-align: top;
         }
         .pgr-pflegestufe label:last-child {
             margin: 0;
+        }
+        .pgr-pflegestufe input {
+            vertical-align: top;
         }
         .pgr-einschraenkung label {
             display: inline-block; *display: inline; *zoom: 1;
@@ -144,7 +149,8 @@
         .pgr-pflegestufe input {
             margin-right: 0.3em;
         }
-        #pgr-sachleistung {
+        #pgr-sachleistung,
+        #pgr-nsba {
             width: 5em;
             text-align: right;
             background: white;
@@ -155,10 +161,12 @@
             color: black;
             font-size: 120%;
         }
-        #pgr-sachleistung:focus {
+        #pgr-sachleistung:focus,
+        #pgr-nsba:focus {
             outline: 0;
         }
-        #pgr-sachleistung:invalid {
+        #pgr-sachleistung:invalid,
+        #pgr-nsba:invalid {
             background-color: #fdd;
             border-color: #fdd;
             border-bottom-color: red;
@@ -209,8 +217,9 @@
         -->
         <form method=post>
             <fieldset class=pgr-einschraenkung>
-                <legend><b>Schritt 1</b> Einschränkung der Alltagskompetenz</legend>
-                <p>Liegt eine Einschränkung der Alltagskompetenz vor?</p>
+                <legend><b>Schritt 1</b> Einschränkung der Alltagskompetenz,<br>
+                    Zugang zu niedrigschwelligen Betreuungs- und Entlastungsangeboten (NSBA)</legend>
+                <p>Liegt eine dauerhafte erhebliche Einschränkung der Alltagskompetenz im Sinne von § 45a SGB XI vor - das sind vor allem an Demenz erkrankte Menschen?</p>
                 <label for=pgr-einschraenkung-0>
                     <input type=radio id=pgr-einschraenkung-0 name=pgr-einschraenkung value=1>
                     Ja
@@ -231,49 +240,65 @@
                     </small>
                     <small class=pgr-is-einschraenkung>
                         <i>, bei Einschränkung der Alltagskompetenz jedoch: </i>
-                        Maximal 225&nbsp;€ Sachleistung / 120&nbsp;€ Pflegegeld
+                        Maximal 231&nbsp;€ Sachleistung / 123&nbsp;€ Pflegegeld<br>
+                        Einsatz von NSBA max. 40% (92,40&nbsp;€)
                     </small>
                 </label>
                 <label for=pgr-pflegestufe-1>
                     <input type=radio id=pgr-pflegestufe-1 name=pgr-pflegestufe value=1>
                     Pflegestufe I
                     <small class=pgr-not-einschraenkung>
-                        Maximal 450&nbsp;€ Sachleistung / 235&nbsp;€ Pflegegeld
+                        Maximal 468&nbsp;€ Sachleistung / 244&nbsp;€ Pflegegeld<br>
+                        Einsatz von NSBA max. 40% (187,20&nbsp;€)
                     </small>
                     <small class=pgr-is-einschraenkung>
                         <i>, bei Einschränkung der Alltagskompetenz jedoch: </i>
-                        Maximal 665&nbsp;€ Sachleistung / 305&nbsp;€ Pflegegeld
+                        Maximal 689&nbsp;€ Sachleistung / 316&nbsp;€ Pflegegeld<br>
+                        Einsatz von NSBA max. 40% (275,60&nbsp;€)
                     </small>
-                </label>
                 </label>
                 <label for=pgr-pflegestufe-2>
                     <input type=radio id=pgr-pflegestufe-2 name=pgr-pflegestufe value=2>
                     Pflegestufe II
                     <small class=pgr-not-einschraenkung>
-                        Maximal 1100&nbsp;€ Sachleistung / 440&nbsp;€ Pflegegeld
+                        Maximal 1144&nbsp;€ Sachleistung / 458&nbsp;€ Pflegegeld<br>
+                        Einsatz von NSBA max. 40% (457,60&nbsp;€)
                     </small>
                     <small class=pgr-is-einschraenkung>
                         <i>, bei Einschränkung der Alltagskompetenz jedoch: </i>
-                        Maximal 1250&nbsp;€ Sachleistung / 525&nbsp;€ Pflegegeld
+                        Maximal 1298&nbsp;€ Sachleistung / 545&nbsp;€ Pflegegeld<br>
+                        Einsatz von NSBA max. 40% (519,20&nbsp;€)
                     </small>
-                </label>
                 </label>
                 <label for=pgr-pflegestufe-3>
                     <input type=radio id=pgr-pflegestufe-3 name=pgr-pflegestufe value=3>
                     Pflegestufe III
-                    <small>Maximal 1550&nbsp;€ Sachleistung / 700&nbsp;€ Pflegegeld</small>
-                </label>
+                    <small>
+                        Maximal 1612&nbsp;€ Sachleistung / 728&nbsp;€ Pflegegeld<br>
+                        Einsatz von NSBA max. 40% (644,80&nbsp;€)
+                    </small>
                 </label>
             </fieldset>
 
             <fieldset>
                 <legend><b>Schritt 3</b> Pflegesachleistung</legend>
-                <label for=pgr-sachleistung>
-                    Ihre Sachleistung/Pflegekosten, die übernommen werden sollen:<br>
-                    <input type=number min=0 step=1 placeholder=0
-                           id=pgr-sachleistung name=pgr-sachleistung>
-                    <abbr title="in Euro">€</abbr>
-                </label>
+
+                <p>
+                    <label for=pgr-sachleistung>
+                        Ihre Sachleistung/Pflegekosten, die übernommen werden sollen:<br>
+                        <input type=number min=0 step=1 placeholder=0
+                               id=pgr-sachleistung name=pgr-sachleistung>
+                        <abbr title="in Euro">€</abbr>
+                    </label>
+                </p>
+                <p>
+                    <label for=pgr-nsba>
+                        Ihre NSBA, die übernommen werden sollen:<br>
+                        <input type=number min=0 step=1 placeholder=0 value=0
+                               id=pgr-nsba name=pgr-nsba>
+                        <abbr title="in Euro">€</abbr>
+                    </label>
+                </p>
             </fieldset>
 
             <fieldset class=pgr-result>
@@ -298,14 +323,16 @@
                 form = container.find('form'),
                 output = container.find('.pgr-output'),
                 result = container.find('.pgr-result'),
-                data = [[[  0,   0], [450, 235], [1100, 440], [1550, 700]],
-                        [[225, 120], [665, 305], [1250, 525], [1550, 700]]],
+                data = [[[  0,   0], [468, 244], [1144, 458], [1612, 728]],
+                        [[231, 123], [689, 316], [1298, 545], [1612, 728]]],
                 texts = {
                     keineSachleistung: '<p>Bitte geben Sie bei <b>Schritt 3</b> die Höhe ' +
                             'der ausgeschöpften Sachleistung ein!</p>',
-                    keinAnspruch: '<p><strong>Die zur verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
-                            'Ein Anspruch auf anteiliges Pflegegeld besteht somit nicht.</strong></p>' +
-                            '<p>Privat zu zahlender Rechnungsanteil: $diffPflegesachleistung&nbsp;€</p>',
+                    keinAnspruch: '<p><strong>Die zur Verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
+                        'Ein Anspruch auf anteiliges Pflegegeld besteht somit nicht.</strong></p>',
+                    privatAnteil: '<p>Damit beträgt der privat zu zahlende Rechnungsanteil: $diffPflegesachleistung&nbsp;€</p>',
+                    zuvielNsba: '<p><strong>Der eingebebene Betrag für NSBA übersteigt die Maximalsumme $maxNsba&nbsp;€.</strong><br> ' +
+                        'Bitte ändern Sie bei <b>Schritt 3</b> den Betrag zu NSBA.</p>',
                     result: '<p><strong>Ihr anteiliges Pflegegeld: $pflegegeld&nbsp;€</strong></p>' +
                             '<ul><li>Nicht ausgeschöpfte Pflegesachleistung ist $diffPflegesachleistung&nbsp;€</li>' +
                             '<li>Sie nutzen $anteil&nbsp;% der verfügbaren Sachleistung nicht.</li>' +
@@ -318,28 +345,32 @@
                 einschraenkung = 0;
 
             function calculate() {
-                var result,
+                // Ausgeschöpfte Pflegesachleistung
+                var pflegesachleistung = parseInt(container.find('input[name=pgr-sachleistung]').val(), 10);
 
-                    // Ausgeschöpfte Pflegesachleistung
-                    pflegesachleistung = parseInt(container.find('input[name=pgr-sachleistung]').val(), 10),
+                // Ausgeschöpfte NSBA Leistungen
+                var nsba = parseInt(container.find('input[name=pgr-nsba]').val(), 10);
 
-                    // Ausgewählte Pflegestufe
-                    pflegestufe = parseInt(container.find('input[name=pgr-pflegestufe]:checked').val(), 10),
+                // Ausgewählte Pflegestufe
+                var pflegestufe = parseInt(container.find('input[name=pgr-pflegestufe]:checked').val(), 10);
 
-                    // Zustehende Pflegesachleistung
-                    maxPflegesachleistung = data[einschraenkung][pflegestufe][0],
+                // Max. Zustehende Pflegesachleistung
+                var maxPflegesachleistung = data[einschraenkung][pflegestufe][0];
 
-                    // Zustehendes Pflegegeld
-                    maxPflegegeld = data[einschraenkung][pflegestufe][1],
+                // Max. Zustehendes Pflegegeld
+                var maxPflegegeld = data[einschraenkung][pflegestufe][1];
 
-                    // Nicht ausgeschöpfte Pflegesachleistung
-                    diffPflegesachleistung = maxPflegesachleistung - pflegesachleistung,
+                // Max. Zustehende NSBA
+                var maxNsba = maxPflegesachleistung * 0.4;
 
-                    // Anteil der Pflegesachleistung nicht ausgeschöpft
-                    anteil = diffPflegesachleistung / maxPflegesachleistung,
+                // Nicht ausgeschöpfte Pflegesachleistung
+                var diffPflegesachleistung = maxPflegesachleistung - (pflegesachleistung || 0) - (nsba || 0);
 
-                    // Zustegendes Pflegegeld,
-                    pflegegeld = anteil * maxPflegegeld;
+                // Anteil der Pflegesachleistung nicht ausgeschöpft
+                var anteil = diffPflegesachleistung / maxPflegesachleistung;
+
+                // Zustegendes Pflegegeld,
+                var pflegegeld = anteil * maxPflegegeld;
 
                 // Ausgabe in Prozent
                 anteil = ('' + Math.round(anteil * 10000) / 100).replace('.', ',');
@@ -347,19 +378,45 @@
                 // Ausgabe runden
                 pflegegeld = ('' + Math.round(pflegegeld * 100) / 100).replace('.', ',');
 
+                var errors = [];
                 if (isNaN(pflegesachleistung) || pflegesachleistung < 0) {
                     return texts.keineSachleistung;
                 }
+
                 if (diffPflegesachleistung <= 0) {
-                    diffPflegesachleistung = -diffPflegesachleistung;
-                    return texts.keinAnspruch.replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
+                    errors.push(
+                        texts.keinAnspruch
+                    );
+                }
+                if (nsba > maxNsba) {
+                    errors.push(
+                            texts.zuvielNsba.replace(
+                                    /\$maxNsba/gi,
+                                    ('' + Math.round(maxNsba * 100) / 100).replace('.', ',')
+                            )
+                    );
                 }
 
+                if (diffPflegesachleistung <= 0) {
+                    errors.push(
+                            texts.privatAnteil.replace(
+                                    /\$diffPflegesachleistung/gi,
+                                    -diffPflegesachleistung
+                            )
+                    );
+                    return errors.join('');
+                }
+
+                if (errors.length) {
+                    return errors.join('');
+                }
+
+
                 return texts.result
-                    .replace(/\$pflegegeld/gi, pflegegeld)
-                    .replace(/\$anteil/gi, anteil)
-                    .replace(/\$maxPflegegeld/gi, maxPflegegeld)
-                    .replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
+                                .replace(/\$pflegegeld/gi, pflegegeld)
+                                .replace(/\$anteil/gi, anteil)
+                                .replace(/\$maxPflegegeld/gi, maxPflegegeld)
+                                .replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
             }
 
             function checkEinschraenkung() {
