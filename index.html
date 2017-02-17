@@ -1,471 +1,461 @@
 <!doctype html>
 <html lang=de>
-    <meta charset=utf-8>
-    <meta name=viewport content="width=device-width, initial-scale=1">
-    <title>Pflegegeldrechner</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>Pflegegeldrechner</title>
 
-    <style>
-        html, body {
-            margin: 0;
-        }
-        html {
-            font-size: 100%;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
-        .pgr-container {
-            font-family: sans-serif;
-            color: #333;
-            background: #fcf1da;
-            padding: 4%;
-        }
-        .pgr-container h2 {
-            font-weight: normal;
-            color: #cb0054;
-        }
-        .pgr-container h2 strong {
-            font-weight: bold;
-            color: #222;
-        }
-        .pgr-container h2 strong:after {
-            content: ".";
-            color: #cb0054;
-            font-weight: normal;
-            margin: 0 -2px;
-        }
-        .pgr-container,
-        .pgr-container header,
-        .pgr-container footer,
-        .pgr-container output {
-            display: block;
-        }
-        .pgr-container input,
-        .pgr-container button {
-            font-family: sans-serif;
-            color: #222;
-            font-size: 100%;
-            margin: 0;
-            vertical-align: baseline;
-            *vertical-align: middle;
-            line-height: normal;
-        }
-        .pgr-container form { margin: 0 }
+<style>
+    html, body {
+        margin: 0;
+    }
 
-        .pgr-output {
-            -webkit-transition: background 0.5s;
-            -moz-transition: background 0.5s;
-            transition: background 0.5s;
+    html {
+        font-size: 100%;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
 
-            margin: -0.3em;
-            padding: 0.3em;
-        }
-        .pgr-output:focus { outline: 0 }
-        .pgr-result button {
-            cursor: pointer;
-            -webkit-appearance: button;
-            *overflow: visible;
-            padding: 0.8em 1em;
-            margin-top: 2em;
-            border: 1px outset #333;
-            background: white;
-        }
-        .pgr-result button:hover,
-        .pgr-result button:focus {
-            border-color: black;
-            background: #ccc;
-        }
-        .pgr-container input[type="radio"] {
-            box-sizing: border-box;
-            padding: 0;
-            *width: 13px;
-            *height: 13px;
-        }
-        .pgr-container label {
-            cursor: pointer;
-            vertical-align: middle;
-        }
-        .pgr-container ul {
-            border: 0;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-        .pgr-container li {
-            padding-bottom: 7px;
-            margin-bottom: 7px;
-            border-bottom: 1px solid #ccc;
-        }
-        .pgr-container li:last-child {
-            padding-bottom: 0;
-            margin-bottom: 0;
-            border-bottom: 0;
-        }
-        .pgr-container legend {
-            border: 0;
-            padding: 0 0.3em;
-            margin-left: -3em;
-            white-space: normal;
-        }
-        .pgr-container fieldset {
-            border: 0;
-            margin: 0;
-            padding: 1em 0 3em 3em;
-            border-top: 1px solid #333;
-        }
-        .pgr-einschraenkung label,
-        .pgr-pflegestufe label {
-            display: block;
-            padding: 2%;
-            background: white;
-        }
-        .pgr-pflegestufe label {
-            font-weight: bold;
-            margin: 0 0 1em 0;
-            vertical-align: top;
-        }
-        .pgr-pflegestufe label:last-child {
-            margin: 0;
-        }
-        .pgr-pflegestufe input {
-            vertical-align: top;
-        }
-        .pgr-einschraenkung label {
-            display: inline-block; *display: inline; *zoom: 1;
-            margin: 0 3% 0 0;
-            padding-right: 6%;
-        }
-        .pgr-einschraenkung input {
-            margin-right: 4px;
-        }
-        .pgr-pflegestufe label:hover {
-            background: #eee;
-        }
-        .pgr-pflegestufe label small {
-            display: inline-block; *display: inline; *zoom: 1;
-            font-size: 100%;
-            font-weight: normal;
-            margin-left: 0.5em;
-        }
-        .pgr-pflegestufe input {
-            margin-right: 0.3em;
-        }
-        #pgr-sachleistung,
-        #pgr-nsba {
-            width: 5em;
-            text-align: right;
-            background: white;
-            border: 0;
-            border-bottom: 1px dotted grey;
-            padding: 0.4em 0.8em;
-            margin: 0.5em 0.4em 0 0;
-            color: black;
-            font-size: 120%;
-        }
-        #pgr-sachleistung:focus,
-        #pgr-nsba:focus {
-            outline: 0;
-        }
-        #pgr-sachleistung:invalid,
-        #pgr-nsba:invalid {
-            background-color: #fdd;
-            border-color: #fdd;
-            border-bottom-color: red;
-        }
-        .pgr-information {
-            padding-bottom: 1.2em;
-        }
-        .pgr-inactive {
-            display: none;
-        }
-        .pgr-visuallyhidden,
-        .pgr-container label small i {
-            border: 0;
-            clip: rect(0 0 0 0);
-            height: 1px;
-            margin: -1px;
-            overflow: hidden;
-            padding: 0;
-            position: absolute;
-            width: 1px;
-        }
-        .pgr-checked {
-            background-color: #bada55 !important;
-        }
-        .pgr-highlight {
-            background-color: #cae1ff !important;
-        }
-        .pgr-container footer a {
-            color: #cb0054;
-            text-decoration: none;
-        }
-    </style>
+    .pgr-container {
+        font-family: sans-serif;
+        color: #333;
+        background: #fcf1da;
+        padding: 4%;
+    }
 
-    <section role=main class=pgr-container>
-        <!--
-        <header>
-          <h2><strong>Pflegegeld</strong>rechner</h2>
-          <p>von der Sozialstation - ambet e. V.</p>
-        </header>
-        <div class=pgr-information>
-          <p>
-            Je nach Pflegestufe und erbrachter Pflegesachleistung kann ein Anspruch auf Pflegegeld entstehen. Dieses Pflegegeld wird von der Pflegekasse ausgezahlt.</p>
-          <p>
-            <strong>Bitte informieren Sie sich in einem persönlichen Gespräch über die genauen Verfahrensweisen.</strong></p>
-          <p>
-            Vorab bieten wir Ihnen diesen Pflegegeldrechner, mit dem Sie ausrechnen können, wie viel Pflegegeld ausgezahlt würde, wenn Sie eine Pflegesachleistung von uns in Anspruch nehmen würden. Dieser Pflegegeldrechner ersetzt keine Beratung, wenden Sie sich daher bitte bei weitergehenden Fragen oder Unklarheiten an uns.</p>
-        </div>
-        -->
-        <form method=post>
-            <fieldset class=pgr-einschraenkung>
-                <legend><b>Schritt 1</b> Einschränkung der Alltagskompetenz,<br>
-                    Zugang zu niedrigschwelligen Betreuungs- und Entlastungsangeboten (NSBA)</legend>
-                <p>Liegt eine dauerhafte erhebliche Einschränkung der Alltagskompetenz im Sinne von § 45a SGB XI vor - das sind vor allem an Demenz erkrankte Menschen?</p>
-                <label for=pgr-einschraenkung-0>
-                    <input type=radio id=pgr-einschraenkung-0 name=pgr-einschraenkung value=1>
-                    Ja
+    .pgr-container h2 {
+        font-weight: normal;
+        color: #cb0054;
+    }
+
+    .pgr-container h2 strong {
+        font-weight: bold;
+        color: #222;
+    }
+
+    .pgr-container h2 strong:after {
+        content: ".";
+        color: #cb0054;
+        font-weight: normal;
+        margin: 0 -2px;
+    }
+
+    .pgr-container,
+    .pgr-container header,
+    .pgr-container footer,
+    .pgr-container output {
+        display: block;
+    }
+
+    .pgr-container input,
+    .pgr-container button {
+        font-family: sans-serif;
+        color: #222;
+        font-size: 100%;
+        margin: 0;
+        vertical-align: baseline;
+        *vertical-align: middle;
+        line-height: normal;
+    }
+
+    .pgr-container form {
+        margin: 0
+    }
+
+    .pgr-output {
+        -webkit-transition: background 0.5s;
+        -moz-transition: background 0.5s;
+        transition: background 0.5s;
+
+        margin: -0.3em;
+        padding: 0.3em;
+    }
+
+    .pgr-output:focus {
+        outline: 0
+    }
+
+    .pgr-result button {
+        cursor: pointer;
+        -webkit-appearance: button;
+        *overflow: visible;
+        padding: 0.8em 1em;
+        margin-top: 2em;
+        border: 1px outset #333;
+        background: white;
+    }
+
+    .pgr-result button:hover,
+    .pgr-result button:focus {
+        border-color: black;
+        background: #ccc;
+    }
+
+    .pgr-container input[type="radio"] {
+        box-sizing: border-box;
+        padding: 0;
+        *width: 13px;
+        *height: 13px;
+    }
+
+    .pgr-container label {
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    .pgr-container ul {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .pgr-container li {
+        padding-bottom: 7px;
+        margin-bottom: 7px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .pgr-container li:last-child {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .pgr-container legend {
+        border: 0;
+        padding: 0 0.3em;
+        margin-left: -3em;
+        white-space: normal;
+    }
+
+    .pgr-container fieldset {
+        border: 0;
+        margin: 0;
+        padding: 1em 0 3em 3em;
+        border-top: 1px solid #333;
+    }
+
+    .pgr-einschraenkung label,
+    .pgr-pflegegrad label {
+        display: block;
+        padding: 2%;
+        background: white;
+    }
+
+    .pgr-pflegegrad label {
+        font-weight: bold;
+        margin: 0 0 1em 0;
+        vertical-align: top;
+    }
+
+    .pgr-pflegegrad label:last-child {
+        margin: 0;
+    }
+
+    .pgr-pflegegrad input {
+        vertical-align: top;
+    }
+
+    .pgr-einschraenkung label {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        margin: 0 3% 0 0;
+        padding-right: 6%;
+    }
+
+    .pgr-einschraenkung input {
+        margin-right: 4px;
+    }
+
+    .pgr-pflegegrad label:hover {
+        background: #eee;
+    }
+
+    .pgr-pflegegrad label small {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        font-size: 100%;
+        font-weight: normal;
+        margin-left: 0.5em;
+    }
+
+    .pgr-pflegegrad input {
+        margin-right: 0.3em;
+    }
+
+    #pgr-sachleistung {
+        width: 5em;
+        text-align: right;
+        background: white;
+        border: 0;
+        border-bottom: 1px dotted grey;
+        padding: 0.4em 0.8em;
+        margin: 0.5em 0.4em 0 0;
+        color: black;
+        font-size: 120%;
+    }
+
+    #pgr-sachleistung:focus {
+        outline: 0;
+    }
+
+    #pgr-sachleistung:invalid {
+        background-color: #fdd;
+        border-color: #fdd;
+        border-bottom-color: red;
+    }
+
+    .pgr-information {
+        padding-bottom: 1.2em;
+    }
+
+    .pgr-inactive {
+        display: none;
+    }
+
+    .pgr-visuallyhidden,
+    .pgr-container label small i {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .pgr-checked {
+        background-color: #bada55 !important;
+    }
+
+    .pgr-highlight {
+        background-color: #cae1ff !important;
+    }
+
+    .pgr-container footer a {
+        color: #cb0054;
+        text-decoration: none;
+    }
+</style>
+
+<section role=main class=pgr-container>
+    <form method=post>
+        <fieldset class=pgr-pflegegrad>
+            <legend><b>Schritt 1</b> Pflegegrad</legend>
+            <label for=pgr-pflegegrad-1>
+                <input type=radio id=pgr-pflegegrad-1 name=pgr-pflegegrad value=0 checked>
+                Pflegegrad 1
+
+                <small>Keine Sachleistung und kein Pflegegeld</small>
+            </label>
+
+            <label for=pgr-pflegegrad-2>
+                <input type=radio id=pgr-pflegegrad-2 name=pgr-pflegegrad value=1>
+                Pflegegrad 2
+
+                <small>Maximal 689&nbsp;€ Sachleistung / 316&nbsp;€ Pflegegeld</small>
+            </label>
+
+            <label for=pgr-pflegegrad-3>
+                <input type=radio id=pgr-pflegegrad-3 name=pgr-pflegegrad value=2>
+                Pflegegrad 3
+
+                <small>Maximal 1.298&nbsp;€ Sachleistung / 545&nbsp;€ Pflegegeld</small>
+            </label>
+
+            <label for=pgr-pflegegrad-4>
+                <input type=radio id=pgr-pflegegrad-4 name=pgr-pflegegrad value=3>
+                Pflegegrad 4
+
+                <small>Maximal 1.612&nbsp;€ Sachleistung / 728&nbsp;€ Pflegegeld</small>
+            </label>
+
+            <label for=pgr-pflegegrad-5>
+                <input type=radio id=pgr-pflegegrad-5 name=pgr-pflegegrad value=4>
+                Pflegegrad 5
+
+                <small>Maximal 1.995&nbsp;€ Sachleistung / 901&nbsp;€ Pflegegeld</small>
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend><b>Schritt 2</b> Pflegesachleistung</legend>
+
+            <p>
+                <label for=pgr-sachleistung>
+                    Ihre Sachleistung/Pflegekosten, die übernommen werden sollen:<br>
+                    <input type=number min=0 step=1 placeholder=0
+                           id=pgr-sachleistung name=pgr-sachleistung>
+                    <abbr title="in Euro">€</abbr>
                 </label>
-                <label for=pgr-einschraenkung-1>
-                    <input type=radio id=pgr-einschraenkung-1 name=pgr-einschraenkung value=0 checked>
-                    Nein
-                </label>
-            </fieldset>
+            </p>
+        </fieldset>
 
-            <fieldset class=pgr-pflegestufe>
-                <legend><b>Schritt 2</b> Pflegestufe</legend>
-                <label for=pgr-pflegestufe-0>
-                    <input type=radio id=pgr-pflegestufe-0 name=pgr-pflegestufe value=0 checked>
-                    Pflegestufe 0
-                    <small class=pgr-not-einschraenkung>
-                        Keine Sachleistung und kein Pflegegeld
-                    </small>
-                    <small class=pgr-is-einschraenkung>
-                        <i>, bei Einschränkung der Alltagskompetenz jedoch: </i>
-                        Maximal 231&nbsp;€ Sachleistung / 123&nbsp;€ Pflegegeld<br>
-                        Einsatz von NSBA max. 40% (92,40&nbsp;€)
-                    </small>
-                </label>
-                <label for=pgr-pflegestufe-1>
-                    <input type=radio id=pgr-pflegestufe-1 name=pgr-pflegestufe value=1>
-                    Pflegestufe I
-                    <small class=pgr-not-einschraenkung>
-                        Maximal 468&nbsp;€ Sachleistung / 244&nbsp;€ Pflegegeld<br>
-                        Einsatz von NSBA max. 40% (187,20&nbsp;€)
-                    </small>
-                    <small class=pgr-is-einschraenkung>
-                        <i>, bei Einschränkung der Alltagskompetenz jedoch: </i>
-                        Maximal 689&nbsp;€ Sachleistung / 316&nbsp;€ Pflegegeld<br>
-                        Einsatz von NSBA max. 40% (275,60&nbsp;€)
-                    </small>
-                </label>
-                <label for=pgr-pflegestufe-2>
-                    <input type=radio id=pgr-pflegestufe-2 name=pgr-pflegestufe value=2>
-                    Pflegestufe II
-                    <small class=pgr-not-einschraenkung>
-                        Maximal 1144&nbsp;€ Sachleistung / 458&nbsp;€ Pflegegeld<br>
-                        Einsatz von NSBA max. 40% (457,60&nbsp;€)
-                    </small>
-                    <small class=pgr-is-einschraenkung>
-                        <i>, bei Einschränkung der Alltagskompetenz jedoch: </i>
-                        Maximal 1298&nbsp;€ Sachleistung / 545&nbsp;€ Pflegegeld<br>
-                        Einsatz von NSBA max. 40% (519,20&nbsp;€)
-                    </small>
-                </label>
-                <label for=pgr-pflegestufe-3>
-                    <input type=radio id=pgr-pflegestufe-3 name=pgr-pflegestufe value=3>
-                    Pflegestufe III
-                    <small>
-                        Maximal 1612&nbsp;€ Sachleistung / 728&nbsp;€ Pflegegeld<br>
-                        Einsatz von NSBA max. 40% (644,80&nbsp;€)
-                    </small>
-                </label>
-            </fieldset>
+        <fieldset class=pgr-result>
+            <legend><b>Ergebnis</b></legend>
+            <output class=pgr-output></output>
+            <button type=submit>Jetzt berechnen!</button>
+        </fieldset>
+    </form>
+    <footer>
+        <small>
+            Alle Angaben ohne Gewähr,
+            <a href="https://github.com/ambet/pflegegeldrechner" rel=external target="_blank">zum Quelltext</a>
+        </small>
+    </footer>
+</section>
 
-            <fieldset>
-                <legend><b>Schritt 3</b> Pflegesachleistung</legend>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+<script>
 
-                <p>
-                    <label for=pgr-sachleistung>
-                        Ihre Sachleistung/Pflegekosten, die übernommen werden sollen:<br>
-                        <input type=number min=0 step=1 placeholder=0
-                               id=pgr-sachleistung name=pgr-sachleistung>
-                        <abbr title="in Euro">€</abbr>
-                    </label>
-                </p>
-                <p>
-                    <label for=pgr-nsba>
-                        Ihre NSBA, die übernommen werden sollen:<br>
-                        <input type=number min=0 step=1 placeholder=0 value=0
-                               id=pgr-nsba name=pgr-nsba>
-                        <abbr title="in Euro">€</abbr>
-                    </label>
-                </p>
-            </fieldset>
+    (function ($) {
+        // Gesetzliche Ansrpüche je Pflegegrad (Maximale Sachleistung, maximales Pflegegeld)
+        var DATA = [
+            [0, 0],
+            [689, 316],
+            [1298, 545],
+            [1612, 728],
+            [1995, 901]
+        ];
 
-            <fieldset class=pgr-result>
-                <legend><b>Ergebnis</b></legend>
-                <output class=pgr-output></output>
-                <button type=submit>Jetzt berechnen!</button>
-            </fieldset>
-        </form>
-        <footer>
-            <small>
-                Alle Angaben ohne Gewähr,
-                <a href="https://github.com/ambet/pflegegeldrechner" rel=external target="_blank">zum Quelltext</a>
-            </small>
-        </footer>
-    </section>
+        var TEXT_KEINE_SACHLEISTUNG = '' +
+            '<p>Bitte geben Sie bei <b>Schritt 2</b> die Höhe ' +
+            'der ausgeschöpften Sachleistung ein!</p>';
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script>
-        (function ($) {
-            var highlightTimer,
-                container = $('section.pgr-container'),
-                form = container.find('form'),
-                output = container.find('.pgr-output'),
-                result = container.find('.pgr-result'),
-                data = [[[  0,   0], [468, 244], [1144, 458], [1612, 728]],
-                        [[231, 123], [689, 316], [1298, 545], [1612, 728]]],
-                texts = {
-                    keineSachleistung: '<p>Bitte geben Sie bei <b>Schritt 3</b> die Höhe ' +
-                            'der ausgeschöpften Sachleistung ein!</p>',
-                    keinAnspruch: '<p><strong>Die zur Verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
-                        'Ein Anspruch auf anteiliges Pflegegeld besteht somit nicht.</strong></p>',
-                    privatAnteil: '<p>Damit beträgt der privat zu zahlende Rechnungsanteil: $diffPflegesachleistung&nbsp;€</p>',
-                    zuvielNsba: '<p><strong>Der eingebebene Betrag für NSBA übersteigt die Maximalsumme $maxNsba&nbsp;€.</strong><br> ' +
-                        'Bitte ändern Sie bei <b>Schritt 3</b> den Betrag zu NSBA.</p>',
-                    result: '<p><strong>Ihr anteiliges Pflegegeld: $pflegegeld&nbsp;€</strong></p>' +
-                            '<ul><li>Nicht ausgeschöpfte Pflegesachleistung ist $diffPflegesachleistung&nbsp;€</li>' +
-                            '<li>Sie nutzen $anteil&nbsp;% der verfügbaren Sachleistung nicht.</li>' +
-                            '<li>Damit stehen ihnen $anteil&nbsp;% des Pflegegeldes zu.</li>' +
-                            '<li>Das maximal zustehende Pflegegeld ist $maxPflegegeld&nbsp;€.</li>' +
-                            '<li>Ihr anteiliges Pflegegeld ist $pflegegeld&nbsp;€.</li></ul>'
-                },
+        var TEXT_KEIN_ANSPRUCH = '' +
+            '<p><strong>Die zur Verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
+            'Ein Anspruch auf anteiliges Pflegegeld besteht somit nicht.</strong></p>';
 
-                // Liegt Einschränkung in Alltagskompetenz vor?
-                einschraenkung = 0;
+        var TEXT_PRIVATER_ANTEIL = '' +
+            '<p>Damit beträgt der privat zu zahlende Rechnungsanteil: $diffPflegesachleistung&nbsp;€</p>';
 
-            function calculate() {
-                // Ausgeschöpfte Pflegesachleistung
-                var pflegesachleistung = parseInt(container.find('input[name=pgr-sachleistung]').val(), 10);
-
-                // Ausgeschöpfte NSBA Leistungen
-                var nsba = parseInt(container.find('input[name=pgr-nsba]').val(), 10);
-
-                // Ausgewählte Pflegestufe
-                var pflegestufe = parseInt(container.find('input[name=pgr-pflegestufe]:checked').val(), 10);
-
-                // Max. Zustehende Pflegesachleistung
-                var maxPflegesachleistung = data[einschraenkung][pflegestufe][0];
-
-                // Max. Zustehendes Pflegegeld
-                var maxPflegegeld = data[einschraenkung][pflegestufe][1];
-
-                // Max. Zustehende NSBA
-                var maxNsba = maxPflegesachleistung * 0.4;
-
-                // Nicht ausgeschöpfte Pflegesachleistung
-                var diffPflegesachleistung = maxPflegesachleistung - (pflegesachleistung || 0) - (nsba || 0);
-
-                // Anteil der Pflegesachleistung nicht ausgeschöpft
-                var anteil = diffPflegesachleistung / maxPflegesachleistung;
-
-                // Zustegendes Pflegegeld,
-                var pflegegeld = anteil * maxPflegegeld;
-
-                // Ausgabe in Prozent
-                anteil = ('' + Math.round(anteil * 10000) / 100).replace('.', ',');
-
-                // Ausgabe runden
-                pflegegeld = ('' + Math.round(pflegegeld * 100) / 100).replace('.', ',');
-
-                var errors = [];
-                if (isNaN(pflegesachleistung) || pflegesachleistung < 0) {
-                    return texts.keineSachleistung;
-                }
-
-                if (diffPflegesachleistung <= 0) {
-                    errors.push(
-                        texts.keinAnspruch
-                    );
-                }
-                if (nsba > maxNsba) {
-                    errors.push(
-                            texts.zuvielNsba.replace(
-                                    /\$maxNsba/gi,
-                                    ('' + Math.round(maxNsba * 100) / 100).replace('.', ',')
-                            )
-                    );
-                }
-
-                if (diffPflegesachleistung <= 0) {
-                    errors.push(
-                            texts.privatAnteil.replace(
-                                    /\$diffPflegesachleistung/gi,
-                                    -diffPflegesachleistung
-                            )
-                    );
-                    return errors.join('');
-                }
-
-                if (errors.length) {
-                    return errors.join('');
-                }
+        var TEXT_RESULT = '' +
+            '<p><strong>Ihr anteiliges Pflegegeld: $pflegegeld&nbsp;€</strong></p>' +
+            '<ul>' +
+            '<li>Nicht ausgeschöpfte Pflegesachleistung ist $diffPflegesachleistung&nbsp;€</li>' +
+            '<li>Sie nutzen $anteilGenutzteSachleistung&nbsp;% der verfügbaren Sachleistung.</li>' +
+            '<li>Damit stehen ihnen $anteilNichtGenutzteSachleistung&nbsp;% des Pflegegeldes zu.</li>' +
+            '</ul>';
 
 
-                return texts.result
-                                .replace(/\$pflegegeld/gi, pflegegeld)
-                                .replace(/\$anteil/gi, anteil)
-                                .replace(/\$maxPflegegeld/gi, maxPflegegeld)
-                                .replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
+        var $container = $('section.pgr-container');
+        var $form = $container.find('form');
+        var $output = $container.find('.pgr-output');
+
+        // Liegt Einschränkung in Alltagskompetenz vor?
+        var einschraenkung = 0;
+
+        function formatPercent(number) {
+            return Math.round(number * 100);
+        }
+
+        function calculate() {
+            // Ausgeschöpfte Pflegesachleistung
+            var pflegesachleistung = parseInt($container.find('input[name="pgr-sachleistung"]').val(), 10) || 0;
+
+            // Ausgewählte Pflegegrad
+            var pflegegrad = parseInt($container.find('input[name="pgr-pflegegrad"]:checked').val(), 10) || 0;
+
+            // Max. Zustehende Pflegesachleistung
+            var maxPflegesachleistung = DATA[pflegegrad][0];
+
+            // Max. Zustehendes Pflegegeld
+            var maxPflegegeld = DATA[pflegegrad][1];
+
+            // Nicht ausgeschöpfte Pflegesachleistung
+            var diffPflegesachleistung = maxPflegesachleistung - pflegesachleistung;
+
+            // Anteil der Pflegesachleistung ausgeschöpft
+            var anteilGenutzteSachleistung = pflegesachleistung / maxPflegesachleistung;
+
+            // Anteil der Pflegesachleistung nicht ausgeschöpft
+            var anteilNichtGenutzteSachleistung = diffPflegesachleistung / maxPflegesachleistung;
+
+            // Zustegendes Pflegegeld,
+            var pflegegeld = anteilNichtGenutzteSachleistung * maxPflegegeld;
+
+            // Ausgabe runden
+            pflegegeld = ('' + Math.round(pflegegeld * 100) / 100).replace('.', ',');
+
+            var errors = [];
+            if (isNaN(pflegesachleistung) || pflegesachleistung < 0) {
+                return TEXT_KEINE_SACHLEISTUNG;
             }
 
-            function checkEinschraenkung() {
-                einschraenkung = parseInt(container.find('input[name=pgr-einschraenkung]:checked').val(), 10);
-
-                if (einschraenkung === 1) {
-                    container.find('.pgr-not-einschraenkung').addClass('pgr-visuallyhidden').end()
-                             .find('.pgr-is-einschraenkung').removeClass('pgr-visuallyhidden');
-                } else {
-                    container.find('.pgr-is-einschraenkung').addClass('pgr-visuallyhidden').end()
-                             .find('.pgr-not-einschraenkung').removeClass('pgr-visuallyhidden');
-                }
+            if (diffPflegesachleistung <= 0) {
+                errors.push(TEXT_KEIN_ANSPRUCH);
             }
 
-            function updateOutput() {
-                checkEinschraenkung();
-                output.html(calculate());
-
-                container.find('input').parent('label').removeClass('pgr-checked').end()
-                        .filter(':checked').parent('label').addClass('pgr-checked');
+            if (diffPflegesachleistung <= 0) {
+                errors.push(
+                    TEXT_PRIVATER_ANTEIL.replace(
+                        /\$diffPflegesachleistung/gi,
+                        -diffPflegesachleistung
+                    )
+                );
+                return errors.join('');
             }
 
-            function updateAndHighlightOutput() {
-                output
-                    .addClass('pgr-highlight')
-                    .attr('tabindex', '-1');
-
-                updateOutput();
-                output.get(0).focus();
-
-                window.clearTimeout(highlightTimer);
-                highlightTimer = window.setTimeout(function () {
-                    output.removeClass('pgr-highlight');
-                }, 2000);
+            if (errors.length) {
+                return errors.join('');
             }
 
-            form.on('submit.pflegegeldrechner', function (e) {
-                e.preventDefault();
 
-                updateAndHighlightOutput();
-            });
+            return TEXT_RESULT
+                .replace(/\$pflegegeld/gi, pflegegeld)
+                .replace(/\$anteilGenutzteSachleistung/gi, formatPercent(anteilGenutzteSachleistung))
+                .replace(/\$anteilNichtGenutzteSachleistung/gi, formatPercent(anteilNichtGenutzteSachleistung))
+                .replace(/\$maxPflegegeld/gi, maxPflegegeld)
+                .replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
+        }
 
-            container
-                .find('input').on('change.pflegegeldrechner keyup.pflegegeldrechner', updateOutput).end()
-                .find('.pgr-pflegestufe label').on('touch.pflegegeldrechner click.pflegegeldrechner', function () {
-                    $(this).find('input').checked('checked', true);
-                });
+        function checkEinschraenkung() {
+            einschraenkung = parseInt($container.find('input[name=pgr-einschraenkung]:checked').val(), 10);
+
+            if (einschraenkung === 1) {
+                $container.find('.pgr-not-einschraenkung').addClass('pgr-visuallyhidden');
+                $container.find('.pgr-is-einschraenkung').removeClass('pgr-visuallyhidden');
+            } else {
+                $container.find('.pgr-is-einschraenkung').addClass('pgr-visuallyhidden');
+                $container.find('.pgr-not-einschraenkung').removeClass('pgr-visuallyhidden');
+            }
+        }
+
+        function updateOutput() {
+            checkEinschraenkung();
+            $output.html(calculate());
+
+            $container.find('input').parent('label').removeClass('pgr-checked');
+            $container.filter(':checked').parent('label').addClass('pgr-checked');
+        }
+
+        var highlightTimer;
+
+        function updateAndHighlightOutput() {
+            $output
+                .addClass('pgr-highlight')
+                .attr('tabindex', '-1');
 
             updateOutput();
-        }(jQuery));
-    </script>
+            $output.get(0).focus();
+
+            window.clearTimeout(highlightTimer);
+            highlightTimer = window.setTimeout(function () {
+                $output.removeClass('pgr-highlight');
+            }, 2000);
+        }
+
+        $form.on('submit.pflegegeldrechner', function (e) {
+            e.preventDefault();
+
+            updateAndHighlightOutput();
+        });
+
+        $container.find('input').on('change.pflegegeldrechner keyup.pflegegeldrechner', updateOutput);
+        updateOutput();
+    }(jQuery));
+</script>
 </html>
