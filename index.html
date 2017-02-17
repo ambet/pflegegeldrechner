@@ -211,35 +211,35 @@
             <div class=pgr-pflegegrad-option>
                 Pflegegrad 1
 
-                <small>Keine Sachleistung und kein Pflegegeld, aber 125&nbsp;€ Entlastungsbetrag</small>
+                <small>Keine Pflegesachleistung und kein Pflegegeld, aber 125&nbsp;€ Entlastungsbetrag</small>
             </div>
 
             <label class=pgr-pflegegrad-option for=pgr-pflegegrad-2>
                 <input type=radio id=pgr-pflegegrad-2 name=pgr-pflegegrad value=1>
                 Pflegegrad 2
 
-                <small>Maximal 689&nbsp;€ Sachleistung / 316&nbsp;€ Pflegegeld</small>
+                <small>Maximal 689&nbsp;€ Pflegesachleistung / 316&nbsp;€ Pflegegeld</small>
             </label>
 
             <label class=pgr-pflegegrad-option for=pgr-pflegegrad-3>
                 <input type=radio id=pgr-pflegegrad-3 name=pgr-pflegegrad value=2>
                 Pflegegrad 3
 
-                <small>Maximal 1.298&nbsp;€ Sachleistung / 545&nbsp;€ Pflegegeld</small>
+                <small>Maximal 1.298&nbsp;€ Pflegesachleistung / 545&nbsp;€ Pflegegeld</small>
             </label>
 
             <label class=pgr-pflegegrad-option for=pgr-pflegegrad-4>
                 <input type=radio id=pgr-pflegegrad-4 name=pgr-pflegegrad value=3>
                 Pflegegrad 4
 
-                <small>Maximal 1.612&nbsp;€ Sachleistung / 728&nbsp;€ Pflegegeld</small>
+                <small>Maximal 1.612&nbsp;€ Pflegesachleistung / 728&nbsp;€ Pflegegeld</small>
             </label>
 
             <label class=pgr-pflegegrad-option for=pgr-pflegegrad-5>
                 <input type=radio id=pgr-pflegegrad-5 name=pgr-pflegegrad value=4>
                 Pflegegrad 5
 
-                <small>Maximal 1.995&nbsp;€ Sachleistung / 901&nbsp;€ Pflegegeld</small>
+                <small>Maximal 1.995&nbsp;€ Pflegesachleistung / 901&nbsp;€ Pflegegeld</small>
             </label>
         </fieldset>
 
@@ -248,7 +248,7 @@
 
             <p>
                 <label for=pgr-sachleistung>
-                    Ihre Sachleistung/Pflegekosten, die übernommen werden sollen:<br>
+                    Ihre Pflegesachleistung/Pflegekosten, die übernommen werden sollen:<br>
                     <input type=number min=0 step=1 placeholder=0
                            id=pgr-sachleistung name=pgr-sachleistung>
                     <abbr title="in Euro">€</abbr>
@@ -272,7 +272,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 <script>
     (function ($) {
-        // Gesetzliche Ansrpüche je Pflegegrad (Maximale Sachleistung, maximales Pflegegeld)
+        // Gesetzliche Ansrpüche je Pflegegrad (Maximale Pflegesachleistung, maximales Pflegegeld)
         var DATA = [
             [0, 0],
             [689, 316],
@@ -285,7 +285,7 @@
 
         var TEXT_KEINE_SACHLEISTUNG = '' +
             '<p>Bitte geben Sie bei <b>Schritt 2</b> die Höhe ' +
-            'der ausgeschöpften Sachleistung ein!</p>';
+            'der ausgeschöpften Pflegesachleistung ein!</p>';
 
         var TEXT_KEIN_ANSPRUCH = '' +
             '<p><strong>Die zur Verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
@@ -298,7 +298,7 @@
             '<p><strong>Ihr anteiliges Pflegegeld: $pflegegeld&nbsp;€</strong></p>' +
             '<ul>' +
             '<li>Nicht ausgeschöpfte Pflegesachleistung ist $diffPflegesachleistung&nbsp;€</li>' +
-            '<li>Sie nutzen $anteilGenutzteSachleistung&nbsp;% der verfügbaren Sachleistung.</li>' +
+            '<li>Sie nutzen $anteilGenutzteSachleistung&nbsp;% der verfügbaren Pflegesachleistung.</li>' +
             '<li>Damit stehen ihnen $anteilNichtGenutzteSachleistung&nbsp;% des Pflegegeldes zu.</li>' +
             '</ul>';
 
