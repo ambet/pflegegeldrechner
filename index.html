@@ -204,67 +204,60 @@
     }
 </style>
 
-<section role=main class=pgr-container>
-    <form method=post>
-        <fieldset class=pgr-pflegegrad>
-            <legend><b>Schritt 1</b> Pflegegrad</legend>
-            <div class=pgr-pflegegrad-option>
+<section role="main" class="pgr-container">
+    <form method="post">
+        <fieldset class="pgr-pflegegrad">
+            <legend>
+                <b>Schritt 1</b>Pflegegrad
+            </legend>
+            <div class="pgr-pflegegrad-option">
                 Pflegegrad 1
-
                 <small>Keine Pflegesachleistung und kein Pflegegeld, aber 125&nbsp;€ Entlastungsbetrag</small>
             </div>
-
-            <label class=pgr-pflegegrad-option for=pgr-pflegegrad-2>
-                <input type=radio id=pgr-pflegegrad-2 name=pgr-pflegegrad value=1>
+            <label class="pgr-pflegegrad-option" for="pgr-pflegegrad-2">
+                <input type="radio" id="pgr-pflegegrad-2" name="pgr-pflegegrad" value="1">
                 Pflegegrad 2
-
-                <small>Maximal 689&nbsp;€ Pflegesachleistung / 316&nbsp;€ Pflegegeld</small>
+                <small>Maximal 724&nbsp;€ Pflegesachleistung / 316&nbsp;€ Pflegegeld</small>
             </label>
-
-            <label class=pgr-pflegegrad-option for=pgr-pflegegrad-3>
-                <input type=radio id=pgr-pflegegrad-3 name=pgr-pflegegrad value=2>
+            <label class="pgr-pflegegrad-option" for="pgr-pflegegrad-3">
+                <input type="radio" id="pgr-pflegegrad-3" name="pgr-pflegegrad" value="2">
                 Pflegegrad 3
-
-                <small>Maximal 1.298&nbsp;€ Pflegesachleistung / 545&nbsp;€ Pflegegeld</small>
+                <small>Maximal 1.363&nbsp;€ Pflegesachleistung / 545&nbsp;€ Pflegegeld</small>
             </label>
-
-            <label class=pgr-pflegegrad-option for=pgr-pflegegrad-4>
-                <input type=radio id=pgr-pflegegrad-4 name=pgr-pflegegrad value=3>
+            <label class="pgr-pflegegrad-option" for="pgr-pflegegrad-4">
+                <input type="radio" id="pgr-pflegegrad-4" name="pgr-pflegegrad" value="3">
                 Pflegegrad 4
-
-                <small>Maximal 1.612&nbsp;€ Pflegesachleistung / 728&nbsp;€ Pflegegeld</small>
+                <small>Maximal 1.693&nbsp;€ Pflegesachleistung / 728&nbsp;€ Pflegegeld</small>
             </label>
-
-            <label class=pgr-pflegegrad-option for=pgr-pflegegrad-5>
-                <input type=radio id=pgr-pflegegrad-5 name=pgr-pflegegrad value=4>
+            <label class="pgr-pflegegrad-option" for="pgr-pflegegrad-5">
+                <input type="radio" id="pgr-pflegegrad-5" name="pgr-pflegegrad" value="4">
                 Pflegegrad 5
-
-                <small>Maximal 1.995&nbsp;€ Pflegesachleistung / 901&nbsp;€ Pflegegeld</small>
+                <small>Maximal 2.095&nbsp;€ Pflegesachleistung / 901&nbsp;€ Pflegegeld</small>
             </label>
         </fieldset>
-
         <fieldset>
-            <legend><b>Schritt 2</b> Pflegesachleistung</legend>
-
+            <legend>
+                <b>Schritt 2</b>
+                Pflegesachleistung
+            </legend>
             <p>
-                <label for=pgr-sachleistung>
-                    Ihre Pflegesachleistung/Pflegekosten, die übernommen werden sollen:<br>
-                    <input type=number min=0 step=1 placeholder=0
-                           id=pgr-sachleistung name=pgr-sachleistung>
+                <label for="pgr-sachleistung">Ihre Pflegesachleistung/Pflegekosten, die übernommen werden sollen: <br>
+                    <input type="number" min="0" step="1" placeholder="0" id="pgr-sachleistung" name="pgr-sachleistung">
                     <abbr title="in Euro">€</abbr>
                 </label>
             </p>
         </fieldset>
-
-        <fieldset class=pgr-result>
-            <legend><b>Ergebnis</b></legend>
-            <output class=pgr-output></output>
+        <fieldset class="pgr-result">
+            <legend>
+                <b>Ergebnis</b>
+            </legend>
+            <output class="pgr-output"></output>
         </fieldset>
     </form>
-    <footer class=pgr-footer>
+    <footer class="pgr-footer">
         <small>
             Alle Angaben ohne Gewähr,
-            <a href="https://github.com/ambet/pflegegeldrechner" rel=external target=_blank>zum Quelltext</a>
+            <a href="https://github.com/ambet/pflegegeldrechner" rel="external" target="_blank">zum Quelltext</a>
         </small>
     </footer>
 </section>
@@ -409,9 +402,9 @@
     });
 
     each(containerEl.querySelectorAll('input'), function (inputEl) {
-        inputElement.addEventListener('change', updateOutput);
-        inputElement.addEventListener('keyup', updateOutput);
-        inputElement.addEventListener('blur', updateOutput);
+        inputEl.addEventListener('change', updateOutput);
+        inputEl.addEventListener('keyup', updateOutput);
+        inputEl.addEventListener('blur', updateOutput);
     });
     updateOutput();
 </script>
