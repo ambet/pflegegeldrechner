@@ -269,143 +269,150 @@
     </footer>
 </section>
 
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
 <script>
-    (function ($) {
-        // Gesetzliche Ansrpüche je Pflegegrad (Maximale Pflegesachleistung, maximales Pflegegeld)
-        var DATA = [
-            [0, 0],
-            [689, 316],
-            [1298, 545],
-            [1612, 728],
-            [1995, 901]
-        ];
+    function each(list, cb) {
+        Array.prototype.forEach.call(list, cb);
+    }
 
-        var TEXT_KEIN_PFLEGEGRAD = '<p>Bitte wählen Sie bei <b>Schritt 1</b> den Pflegegrad aus!</p>';
+    // Gesetzliche Ansrpüche je Pflegegrad (Maximale Pflegesachleistung, maximales Pflegegeld)
+    var DATA = [
+        [0, 0],
+        [724, 316],
+        [1363, 545],
+        [1693, 728],
+        [2095, 901]
+    ];
 
-        var TEXT_KEINE_SACHLEISTUNG = '' +
-            '<p>Bitte geben Sie bei <b>Schritt 2</b> die Höhe ' +
-            'der ausgeschöpften Pflegesachleistung ein!</p>';
+    var TEXT_KEIN_PFLEGEGRAD = '<p>Bitte wählen Sie bei <b>Schritt 1</b> den Pflegegrad aus!</p>';
 
-        var TEXT_KEIN_ANSPRUCH = '' +
-            '<p><strong>Die zur Verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
-            'Ein Anspruch auf anteiliges Pflegegeld besteht somit nicht.</strong></p>';
+    var TEXT_KEINE_SACHLEISTUNG = '' +
+        '<p>Bitte geben Sie bei <b>Schritt 2</b> die Höhe ' +
+        'der ausgeschöpften Pflegesachleistung ein!</p>';
 
-        var TEXT_PRIVATER_ANTEIL = '' +
-            '<p>Damit beträgt der privat zu zahlende Rechnungsanteil: $diffPflegesachleistung&nbsp;€</p>';
+    var TEXT_KEIN_ANSPRUCH = '' +
+        '<p><strong>Die zur Verfügung stehende Pflegesachleistung wurde voll ausgeschöpft. ' +
+        'Ein Anspruch auf anteiliges Pflegegeld besteht somit nicht.</strong></p>';
 
-        var TEXT_RESULT = '' +
-            '<p><strong>Ihr anteiliges Pflegegeld: $pflegegeld&nbsp;€</strong></p>' +
-            '<ul>' +
-            '<li>Nicht ausgeschöpfte Pflegesachleistung ist $diffPflegesachleistung&nbsp;€</li>' +
-            '<li>Sie nutzen $anteilGenutzteSachleistung&nbsp;% der verfügbaren Pflegesachleistung.</li>' +
-            '<li>Damit stehen ihnen $anteilNichtGenutzteSachleistung&nbsp;% des Pflegegeldes zu.</li>' +
-            '</ul>';
+    var TEXT_PRIVATER_ANTEIL = '' +
+        '<p>Damit beträgt der privat zu zahlende Rechnungsanteil: $diffPflegesachleistung&nbsp;€</p>';
 
-        var $container = $('.pgr-container');
-        var $form = $container.find('form');
-        var $output = $container.find('.pgr-output');
+    var TEXT_RESULT = '' +
+        '<p><strong>Ihr anteiliges Pflegegeld: $pflegegeld&nbsp;€</strong></p>' +
+        '<ul>' +
+        '<li>Nicht ausgeschöpfte Pflegesachleistung ist $diffPflegesachleistung&nbsp;€</li>' +
+        '<li>Sie nutzen $anteilGenutzteSachleistung&nbsp;% der verfügbaren Pflegesachleistung.</li>' +
+        '<li>Damit stehen ihnen $anteilNichtGenutzteSachleistung&nbsp;% des Pflegegeldes zu.</li>' +
+        '</ul>';
 
-        function formatPercent(number) {
-            return Math.round(number * 100);
+    var containerEl = document.querySelector('.pgr-container');
+    var formEl = containerEl.querySelector('form');
+    var outputEl = containerEl.querySelector('.pgr-output');
+
+    function formatPercent(number) {
+        return Math.round(number * 100);
+    }
+
+    function calculate() {
+        var sachleistungEl = containerEl.querySelector('input[name="pgr-sachleistung"]');
+        var pflegegradEl = containerEl.querySelector('input[name="pgr-pflegegrad"]:checked');
+
+        if (!pflegegradEl) {
+            return TEXT_KEIN_PFLEGEGRAD;
         }
 
-        function calculate() {
-            var $sachleistung = $container.find('input[name="pgr-sachleistung"]');
-            var $pflegegrad = $container.find('input[name="pgr-pflegegrad"]:checked');
+        // Ausgeschöpfte Pflegesachleistung
+        var pflegesachleistung = parseInt(sachleistungEl.value, 10) || 0;
 
-            if ($pflegegrad.length == 0) {
-                return TEXT_KEIN_PFLEGEGRAD;
-            }
+        // Ausgewählte Pflegegrad
+        var pflegegrad = parseInt(pflegegradEl.value, 10) || 0;
 
-            // Ausgeschöpfte Pflegesachleistung
-            var pflegesachleistung = parseInt($sachleistung.val(), 10) || 0;
+        // Max. Zustehende Pflegesachleistung
+        var maxPflegesachleistung = DATA[pflegegrad][0];
 
-            // Ausgewählte Pflegegrad
-            var pflegegrad = parseInt($pflegegrad.val(), 10) || 0;
+        // Max. Zustehendes Pflegegeld
+        var maxPflegegeld = DATA[pflegegrad][1];
 
-            // Max. Zustehende Pflegesachleistung
-            var maxPflegesachleistung = DATA[pflegegrad][0];
+        // Nicht ausgeschöpfte Pflegesachleistung
+        var diffPflegesachleistung = maxPflegesachleistung - pflegesachleistung;
 
-            // Max. Zustehendes Pflegegeld
-            var maxPflegegeld = DATA[pflegegrad][1];
+        // Anteil der Pflegesachleistung ausgeschöpft
+        var anteilGenutzteSachleistung = pflegesachleistung / maxPflegesachleistung;
 
-            // Nicht ausgeschöpfte Pflegesachleistung
-            var diffPflegesachleistung = maxPflegesachleistung - pflegesachleistung;
+        // Anteil der Pflegesachleistung nicht ausgeschöpft
+        var anteilNichtGenutzteSachleistung = diffPflegesachleistung / maxPflegesachleistung;
 
-            // Anteil der Pflegesachleistung ausgeschöpft
-            var anteilGenutzteSachleistung = pflegesachleistung / maxPflegesachleistung;
+        // Zustegendes Pflegegeld,
+        var pflegegeld = anteilNichtGenutzteSachleistung * maxPflegegeld;
 
-            // Anteil der Pflegesachleistung nicht ausgeschöpft
-            var anteilNichtGenutzteSachleistung = diffPflegesachleistung / maxPflegesachleistung;
+        // Ausgabe runden
+        pflegegeld = ('' + Math.round(pflegegeld * 100) / 100).replace('.', ',');
 
-            // Zustegendes Pflegegeld,
-            var pflegegeld = anteilNichtGenutzteSachleistung * maxPflegegeld;
-
-            // Ausgabe runden
-            pflegegeld = ('' + Math.round(pflegegeld * 100) / 100).replace('.', ',');
-
-            var errors = [];
-            if (isNaN(pflegesachleistung) || pflegesachleistung < 0) {
-                return TEXT_KEINE_SACHLEISTUNG;
-            }
-
-            if (diffPflegesachleistung <= 0) {
-                errors.push(TEXT_KEIN_ANSPRUCH);
-            }
-
-            if (diffPflegesachleistung <= 0) {
-                errors.push(
-                    TEXT_PRIVATER_ANTEIL.replace(
-                        /\$diffPflegesachleistung/gi,
-                        -diffPflegesachleistung
-                    )
-                );
-            }
-
-            if (errors.length) {
-                return errors.join('');
-            }
-
-            return TEXT_RESULT
-                .replace(/\$pflegegeld/gi, pflegegeld)
-                .replace(/\$anteilGenutzteSachleistung/gi, formatPercent(anteilGenutzteSachleistung))
-                .replace(/\$anteilNichtGenutzteSachleistung/gi, formatPercent(anteilNichtGenutzteSachleistung))
-                .replace(/\$maxPflegegeld/gi, maxPflegegeld)
-                .replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
+        var errors = [];
+        if (isNaN(pflegesachleistung) || pflegesachleistung < 0) {
+            return TEXT_KEINE_SACHLEISTUNG;
         }
 
-        function updateOutput() {
-            $output.html(calculate());
-
-            $container.find('input').parent('label').removeClass('pgr-checked');
-            $container.filter(':checked').parent('label').addClass('pgr-checked');
+        if (diffPflegesachleistung <= 0) {
+            errors.push(TEXT_KEIN_ANSPRUCH);
         }
 
-        var highlightTimer;
-
-        function updateAndHighlightOutput() {
-            $output
-                .addClass('pgr-highlight')
-                .attr('tabindex', '-1');
-
-            updateOutput();
-            $output.get(0).focus();
-
-            window.clearTimeout(highlightTimer);
-            highlightTimer = window.setTimeout(function () {
-                $output.removeClass('pgr-highlight');
-            }, 2000);
+        if (diffPflegesachleistung <= 0) {
+            errors.push(
+                TEXT_PRIVATER_ANTEIL.replace(
+                    /\$diffPflegesachleistung/gi,
+                    -diffPflegesachleistung
+                )
+            );
         }
 
-        $form.on('submit.pflegegeldrechner', function (e) {
-            e.preventDefault();
+        if (errors.length) {
+            return errors.join('');
+        }
 
-            updateAndHighlightOutput();
+        return TEXT_RESULT
+            .replace(/\$pflegegeld/gi, pflegegeld)
+            .replace(/\$anteilGenutzteSachleistung/gi, formatPercent(anteilGenutzteSachleistung))
+            .replace(/\$anteilNichtGenutzteSachleistung/gi, formatPercent(anteilNichtGenutzteSachleistung))
+            .replace(/\$maxPflegegeld/gi, maxPflegegeld)
+            .replace(/\$diffPflegesachleistung/gi, diffPflegesachleistung);
+    }
+
+    function updateOutput() {
+        outputEl.innerHTML = calculate();
+
+        each(containerEl.querySelectorAll('label.pgr-checked > input'), function (inputEl) {
+            inputEl.parentNode.classList.remove('pgr-checked')
         });
+        each(containerEl.querySelectorAll('label > input:checked'), function (inputEl) {
+            inputEl.parentNode.classList.add('pgr-checked');
+        });
+    }
 
-        $container.find('input').on('change.pflegegeldrechner keyup.pflegegeldrechner', updateOutput);
+    var highlightTimer;
+
+    function updateAndHighlightOutput() {
+        outputEl.classList.add('pgr-highlight');
+        outputEl.setAttribute('tabindex', '-1');
+
         updateOutput();
-    }(jQuery));
+        outputEl.focus();
+
+        window.clearTimeout(highlightTimer);
+        highlightTimer = window.setTimeout(function () {
+            outputEl.classList.remove('pgr-highlight');
+        }, 2000);
+    }
+
+    formEl.addEventListener('submit', function (e) {
+        e.preventDefault();
+        updateAndHighlightOutput();
+    });
+
+    each(containerEl.querySelectorAll('input'), function (inputEl) {
+        inputElement.addEventListener('change', updateOutput);
+        inputElement.addEventListener('keyup', updateOutput);
+        inputElement.addEventListener('blur', updateOutput);
+    });
+    updateOutput();
 </script>
 </html>
